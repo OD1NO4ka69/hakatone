@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчеты</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/js/main.js"></script>
+
+    <header class="main-header">
+        <div class="header-container">
+            <nav class="logo-nav">
+                <a href="/html/home.html" style="text-decoration: none;">
+                    <div class="logo">
+                        <h1>МойФинанс</h1>
+                    </div>
+                </a>
+            </nav>
+            <nav class="profile-nav">
+                <a href="/html/profile.html" class="profile-link">Профиль</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2>Введите информацию о доходах или расходах</h2>
+            <form class="finance-form" id="finance-form">
+                <div class="form-group">
+                    <label for="amount">Сумма</label>
+                    <input type="number" id="amount" name="amount" placeholder="Введите сумму" min="0" step="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Категория</label>
+                    <select id="category" name="category" required>
+                        <option value="Зарплата">Зарплата</option>
+                        <option value="Фриланс">Фриланс</option>
+                        <option value="Инвестиции">Инвестиции</option>
+                        <option value="Аренда">Аренда</option>
+                        <option value="Продукты">Продукты</option>
+                        <option value="Игры">Игры</option>
+                        <option value="Развлечения">Развлечения</option>
+                        <option value="Другое">Другое</option>
+                    </select>
+                    <input type="text" id="custom-category" name="custom-category" placeholder="Введите категорию" style="display: none;" />
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Дата</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Тип</label>
+                    <select id="type" name="type" required>
+                        <option value="income">Доход</option>
+                        <option value="expense">Расход</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Сохранить</button>
+            </form>
+
+        </div>
+
+        <div class="report-container">
+            <div class="all-text-report">
+                <div class="container-text">
+                    <h2>Доходы</h2>
+                    <div class="positive-diagram" id="positive-diagram"></div>
+                    <ul id="ul-positive-diagram"></ul>
+                </div>
+                <div class="container-text">
+                    <h2>Расходы</h2>
+                    <div class="negative-diagram" id="negative-diagram"></div>
+                    <ul id="ul-negative-diagram"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <h2>Отчет</h2>
+            <div id="curve_chart"></div>
+
+            <p>тут будут подсказки для людей</p>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userId = localStorage.getItem('user_id');
+
+            if (!userId) {
+                alert('Пользователь не авторизован. Вы будете перенаправлены на страницу входа.');
+                window.location.href = '/html/register.html';
+            }
+
+            document.getElementById('finance-form').addEventListener('submit', async(e) => {
+                e.preventDefault();
+
+                const amount = document.getElementById('amount').value;
+                const category = document.getElementById('category').value;
+                const date = document.getElementById('date').value;
+                const type = document.getElementById('type').value;
+
+                try {
+                    const response = await fetch('http://localhost:3000/add-transaction', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            user_id: userId,
+                            amount,
+                            category,
+                            date,
+                            type
+                        }),
+                    });
+
+                    if (response.ok) {
+                        alert('Транзакция успешно добавлена!');
+                    } else {
+                        alert('Ошибка при добавлении транзакции.');
+                    }
+                } catch (error) {
+                    console.error('Ошибка при отправке данных:', error);
+                }
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

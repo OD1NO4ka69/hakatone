@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/js/main.js"></script>
+
+    <header class="main-header">
+        <div class="header-container">
+            <nav class="logo-nav">
+                <a href="/html/home.html" style="text-decoration: none;">
+                    <div class="logo">
+                        <h1>МойФинанс</h1>
+                    </div>
+                </a>
+            </nav>
+            <nav class="profile-nav">
+                <a href="/html/main.html" class="profile-link">Отчеты</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="main-container">
+            <h2 style="margin: 0 10px 15px; text-align: start;">Кошелек</h2>
+            <div class="wallet-container">
+                <div class="income-wallet">
+                    <h3>Доходы:</h3>
+                    <p>500p</p>
+                </div>
+                <div class="expenses-wallet">
+                    <h3>Расходы:</h3>
+                    <p>300р</p>
+                </div>
+                <div class="all-wallet">
+                    <h3>Общая выгода:</h3>
+                    <p>300р</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <h2 style="margin: 0 10px 15px; text-align: start;">Отчет</h2>
+            <div class="chart-wrapper" style="width: 100%; padding: 0; margin: 15px;">
+                <div id="curve_chart"></div>
+            </div>
+            <p>тут будут подсказки для людей</p>
+
+            <p style="margin-top: 50px; text-align: center;">Для полного отчета по доходам и расходам за определенный период времени перейдите на страницу с отчетами</p>
+            <button class="submit-btn-profile" onclick="window.location.href='main.html'">к отчётам</button>
+        </div>
+
+        <div class="main-container">
+            <h2>История баланса</h2>
+            <ul>
+                <div class="delete-container">
+                    <li class="neg">
+                        <h3 id="pos-neg">Расходы</h3>
+                        <p id="kategory">Кино:</p>
+                        <p id="sum">300р</p>
+                        <p id="data">23.11.2024</p>
+                    </li>
+                    <button><img src="/images/icons8-мусор.svg" alt="trash"></button>
+                </div>
+                <div class="delete-container">
+                    <li class="neg">
+                        <h3 id="pos-neg">Расходы</h3>
+                        <p id="kategory">Кино:</p>
+                        <p id="sum">300р</p>
+                        <p id="data">23.11.2024</p>
+                    </li>
+                    <button><img src="/images/icons8-мусор.svg" alt="trash"></button>
+                </div>
+                <div class="delete-container">
+                    <li class="pos">
+                        <h3 id="pos-neg">Доходы</h3>
+                        <p id="kategory">Фриланс:</p>
+                        <p id="sum">300р</p>
+                        <p id="data">23.11.2024</p>
+                    </li>
+                    <button><img src="/images/icons8-мусор.svg" alt="trash"></button>
+                </div>
+            </ul>
+        </div>
+    </main>
+
+</body>
+
+</html>

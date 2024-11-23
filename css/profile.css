@@ -1,0 +1,127 @@
+.income-wallet,
+.expenses-wallet,
+.all-wallet {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.income-wallet,
+.expenses-wallet {
+    background-color: #f8d93e;
+}
+
+.wallet-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.all-wallet {
+    background-color: #c8e6c9;
+}
+
+.submit-btn-profile {
+    display: block;
+    margin: 0 auto;
+}
+
+button.submit-btn-profile {
+    max-height: 45px;
+    padding: 12px;
+    background-color: #f8d81c;
+    color: #2c3844;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+button.submit-btn-profile:hover {
+    background-color: #8c741a;
+    color: #f4f4f9;
+}
+
+.submit-btn-profile:active {
+    background-color: #f8d93e;
+}
+
+ul li {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 400px;
+}
+
+ul .pos {
+    border-radius: 5px;
+    padding: 3px 10px;
+    min-width: 400px;
+}
+
+.pos #sum {
+    color: #05c10b;
+}
+
+ul .neg {
+    border-radius: 5px;
+    padding: 3px 10px;
+}
+
+.neg #sum {
+    color: #cf1525;
+}
+
+.delete-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    max-width: 500px;
+    margin: 25px auto;
+}
+
+.delete-container button {
+    transition: scale 0.15s ease;
+    background-color: #fff;
+    border: 0;
+    cursor: pointer;
+}
+
+.delete-container button img {
+    height: 30px;
+}
+
+.delete-container button:hover {
+    scale: 1.07;
+}
+
+.delete-container button:active {
+    scale: 1.02;
+}
+
+@media screen and (max-width: 610px) {
+    .wallet-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .income-wallet,
+    .expenses-wallet,
+    .all-wallet {
+        width: 100%;
+    }
+}

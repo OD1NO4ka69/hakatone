@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flexbox;
+}
+
+
+/*HEADER*/
+
+.main-header {
+    display: flexbox;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    z-index: 1000;
+    margin-bottom: 50px;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 65px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+.profile-link {
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-link:hover {
+    background-color: #f0f0f0;
+}
+
+
+/*MAIN*/
+
+main {
+    margin: 5px;
+}
+
+.pig-container {
+    padding-top: 5%;
+    height: 100vh;
+    width: 70%;
+    margin-left: 15%;
+    text-align: center;
+}
+
+h2 {
+    line-height: 132%;
+    font-size: 38px;
+    width: 70%;
+    margin-left: 15%;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 100;
+    margin-top: 15px;
+}
+
+.pig-coin {
+    width: 900px;
+    height: 900px;
+    background-image: url(/images/piggy-Photoroom.png);
+    background-size: contain;
+    margin-left: 25%;
+    margin-top: -5%;
+}
+
+.info-container {
+    padding-top: 10%;
+    height: 100vh;
+    width: 70%;
+    margin-left: 15%;
+    text-align: center;
+}
+
+.info-container p {
+    width: 50%;
+    margin: auto;
+    margin-top: 2%;
+}
+
+.tetya-calc {
+    width: 800px;
+    height: 500px;
+    background-image: url(/images/tetya-Photoroom.png);
+    background-size: contain;
+    margin-left: 25%;
+    margin-top: -5%;
+}

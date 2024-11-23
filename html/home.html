@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма ввода дохода/расхода</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/js/main.js"></script>
+
+    <header class="main-header">
+        <div class="header-container">
+            <nav class="logo-nav">
+                <a href="/html/home.html" style="text-decoration: none;">
+                    <div class="logo">
+                        <h1>МойФинанс</h1>
+                    </div>
+                </a>
+            </nav>
+            <nav class="profile-nav">
+                <a href="/html/profile.html" class="profile-link">Профиль</a>
+                <a href="/html/main.html" class="profile-link">Отчеты</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="pig-container">
+            <h2>ФИНАНСОВЫЙ ПОМОЩНИК, КОТОРОГО РЕКОМЕНДУЮТ ВАШИ ДРУЗЬЯ</h2>
+            <p>узнайте, куда уехали деньги</p>
+            <div class="pig-coin"></div>
+        </div>
+        <div class="info-container">
+            <h2>ПЛАНИРОВАНИЕ БЮДЖЕТА</h2>
+            <p>Наше приложение поможет вам грамотно распределять доходы, отслеживать расходы и достигать финансовых целей без лишнего стресса. Легко, быстро и эффективно —</p>
+            <a href="/html/profile.html" style="text-decoration: none;">
+                <div class="profile-button">
+                    <h1>начните сейчас!</h1>
+                </div>
+            </a>
+            <div class="tetya-calc"></div>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userId = localStorage.getItem('user_id');
+
+            if (!userId) {
+                alert('Пользователь не авторизован. Вы будете перенаправлены на страницу входа.');
+                window.location.href = '/html/register.html';
+            }
+
+            document.getElementById('finance-form').addEventListener('submit', async(e) => {
+                e.preventDefault();
+
+                const amount = document.getElementById('amount').value;
+                const category = document.getElementById('category').value;
+                const date = document.getElementById('date').value;
+                const type = document.getElementById('type').value;
+
+                try {
+                    const response = await fetch('http://localhost:3000/add-transaction', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            user_id: userId,
+                            amount,
+                            category,
+                            date,
+                            type
+                        }),
+                    });
+
+                    if (response.ok) {
+                        alert('Транзакция успешно добавлена!');
+                    } else {
+                        alert('Ошибка при добавлении транзакции.');
+                    }
+                } catch (error) {
+                    console.error('Ошибка при отправке данных:', error);
+                }
+            });
+        });
+    </script>
+
+
+</body>
