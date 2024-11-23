@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Отчеты</title>
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="shortcut icon" href="/images/ruble_fy1gcwmovm7o.svg" type="image/x-icon">
 </head>
 
 <body>
@@ -37,16 +38,16 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="type">Тип</label>
+                    <select id="type" name="type" required>
+                        <option value="income">Доход</option>
+                        <option value="expense">Расход</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="category">Категория</label>
                     <select id="category" name="category" required>
-                        <option value="Зарплата">Зарплата</option>
-                        <option value="Фриланс">Фриланс</option>
-                        <option value="Инвестиции">Инвестиции</option>
-                        <option value="Аренда">Аренда</option>
-                        <option value="Продукты">Продукты</option>
-                        <option value="Игры">Игры</option>
-                        <option value="Развлечения">Развлечения</option>
-                        <option value="Другое">Другое</option>
                     </select>
                     <input type="text" id="custom-category" name="custom-category" placeholder="Введите категорию" style="display: none;" />
                 </div>
@@ -55,14 +56,17 @@
                     <label for="date">Дата</label>
                     <input type="date" id="date" name="date" required>
                 </div>
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const currentDate = new Date().toISOString().split('T')[0];
+                        
+                        document.getElementById('date').value = currentDate;
+                    });
+                </script>
+                
 
-                <div class="form-group">
-                    <label for="type">Тип</label>
-                    <select id="type" name="type" required>
-                        <option value="income">Доход</option>
-                        <option value="expense">Расход</option>
-                    </select>
-                </div>
+                
 
                 <button type="submit" class="submit-btn">Сохранить</button>
             </form>
@@ -73,20 +77,21 @@
             <div class="all-text-report">
                 <div class="container-text">
                     <h2>Доходы</h2>
-                    <div class="positive-diagram" id="positive-diagram"></div>
+                    <div class="positive-diagram" id="positive-diagram" style="width: clamp(200px, 100%, 500px)"></div>
                     <ul id="ul-positive-diagram"></ul>
                 </div>
                 <div class="container-text">
                     <h2>Расходы</h2>
-                    <div class="negative-diagram" id="negative-diagram"></div>
+                    <div class="negative-diagram" id="negative-diagram" style="width: clamp(200px, 100%, 500px)"></div>
                     <ul id="ul-negative-diagram"></ul>
                 </div>
             </div>
         </div>
+        
 
         <div class="main-container">
             <h2>Отчет</h2>
-            <div id="curve_chart"></div>
+            <div class="linechart_values" id="linechart_values"></div>
 
             <p>тут будут подсказки для людей</p>
         </div>

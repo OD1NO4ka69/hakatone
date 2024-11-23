@@ -4,6 +4,8 @@
     box-sizing: border-box;
 }
 
+
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -61,14 +63,26 @@ body {
 
 main {
     margin: 5px;
+    margin-top: 65px;
 }
 
-.pig-container {
-    padding-top: 5%;
-    height: 100vh;
-    width: 70%;
-    margin-left: 15%;
+.pig-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
+    width: 80vw;
+    margin: 20px auto;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 40px;
+    text-align: center;
+    width: 80vw;
+    margin: 20px auto;
 }
 
 h2 {
@@ -76,6 +90,7 @@ h2 {
     font-size: 38px;
     width: 70%;
     margin-left: 15%;
+    margin-bottom: 10px !important;
 }
 
 p {
@@ -84,21 +99,15 @@ p {
     margin-top: 15px;
 }
 
-.pig-coin {
-    width: 900px;
-    height: 900px;
-    background-image: url(/images/piggy-Photoroom.png);
-    background-size: contain;
-    margin-left: 25%;
-    margin-top: -5%;
+.pig-coin img{
+    width: 800px;
+    margin-right: -230px;
+    margin-bottom: -250px;
 }
 
-.info-container {
-    padding-top: 10%;
-    height: 100vh;
-    width: 70%;
-    margin-left: 15%;
-    text-align: center;
+.tetya-calc img{
+    width: 800px;
+    margin-bottom: -40px;
 }
 
 .info-container p {
@@ -108,10 +117,93 @@ p {
 }
 
 .tetya-calc {
-    width: 800px;
-    height: 500px;
-    background-image: url(/images/tetya-Photoroom.png);
+
     background-size: contain;
     margin-left: 25%;
-    margin-top: -5%;
+    margin: auto;
+}
+.profile-button{
+    font-weight: 100;
+    font-size: 20px;
+    color: black;
+    background-color: #ffee55;
+    width: fit-content;
+    padding: 10px 5%;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 3%;
+}
+.profile-button:hover{
+    background-color: rgb(221, 189, 73);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn{
+    max-width: 200px !important;
+    margin: 20px auto !important;
+}
+
+@media screen and (max-width: 1050px) {
+    .pig-coin img{
+        width: 600px;
+        margin-right: -200px;
+        margin-bottom: -200px;
+    }
+    
+    .tetya-calc img{
+        width: 600px;
+    }
+    .pig-container, .info-container {
+        width: 100vw;
+        margin: 0 auto;
+    }
+    h2{
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .pig-coin img{
+        width: 400px;
+        margin-right: -110px;
+        margin-bottom: -125px;
+    }
+    
+    .tetya-calc img{
+        width: 450px;
+    }
+    h2{
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 512px) {
+    .pig-coin img{
+        width: 275px;
+        margin-right: -65px;
+        margin-bottom: -75px;
+    }
+    
+    .tetya-calc img{
+        width: 300px;
+    }
+
+    .info-container{
+        text-align: center;
+    }
+
+    .info-container p{
+        margin: 10px auto;
+        width: 80vw;
+        text-align: center;
+    }
+
+    .header-container{
+        padding: 0 10px;
+    }
+
+    .profile-nav{
+        margin-left: 15%;
+    }
 }

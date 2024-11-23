@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма ввода дохода/расхода</title>
+    <title>Главная</title>
     <link rel="stylesheet" href="/css/home.css">
+    <link rel="shortcut icon" href="/images/ruble_fy1gcwmovm7o.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
@@ -32,64 +34,16 @@
         <div class="pig-container">
             <h2>ФИНАНСОВЫЙ ПОМОЩНИК, КОТОРОГО РЕКОМЕНДУЮТ ВАШИ ДРУЗЬЯ</h2>
             <p>узнайте, куда уехали деньги</p>
-            <div class="pig-coin"></div>
+            <div class="pig-coin"><img src="/images/piggy-Photoroom.png" alt="pig-coin"></div>
         </div>
         <div class="info-container">
             <h2>ПЛАНИРОВАНИЕ БЮДЖЕТА</h2>
             <p>Наше приложение поможет вам грамотно распределять доходы, отслеживать расходы и достигать финансовых целей без лишнего стресса. Легко, быстро и эффективно —</p>
-            <a href="/html/profile.html" style="text-decoration: none;">
-                <div class="profile-button">
-                    <h1>начните сейчас!</h1>
-                </div>
-            </a>
-            <div class="tetya-calc"></div>
+            <button  type="submit" class="submit-btn" onclick="window.location.href='main.html'"">Начните сейчас</button>
+            <div class="tetya-calc">
+                <img src="/images/tetya-Photoroom.png" alt="woman">
+            </div>
         </div>
 
     </main>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userId = localStorage.getItem('user_id');
-
-            if (!userId) {
-                alert('Пользователь не авторизован. Вы будете перенаправлены на страницу входа.');
-                window.location.href = '/html/register.html';
-            }
-
-            document.getElementById('finance-form').addEventListener('submit', async(e) => {
-                e.preventDefault();
-
-                const amount = document.getElementById('amount').value;
-                const category = document.getElementById('category').value;
-                const date = document.getElementById('date').value;
-                const type = document.getElementById('type').value;
-
-                try {
-                    const response = await fetch('http://localhost:3000/add-transaction', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            user_id: userId,
-                            amount,
-                            category,
-                            date,
-                            type
-                        }),
-                    });
-
-                    if (response.ok) {
-                        alert('Транзакция успешно добавлена!');
-                    } else {
-                        alert('Ошибка при добавлении транзакции.');
-                    }
-                } catch (error) {
-                    console.error('Ошибка при отправке данных:', error);
-                }
-            });
-        });
-    </script>
-
-
 </body>

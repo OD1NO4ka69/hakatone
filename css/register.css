@@ -7,24 +7,32 @@ body {
     height: 100vh;
     margin: 0;
 }
-
+*{
+    border-radius: 10px;
+}
 .registration-form,
 .login-form {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 30px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 350px;
 }
 
 .registration-form h2,
-.login_form h2 {
+.login-form h2 {
     margin-bottom: 20px;
     text-align: center;
+    color:rgb(41, 41, 41);
+    letter-spacing: 1px;
 }
+
 
 .form-group {
     margin-bottom: 15px;
+    color:rgb(53, 52, 52);
+    letter-spacing: 0.8px;
+    margin-top: 20px;
 }
 
 .form-group label {
@@ -39,10 +47,15 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    margin-top: 2px;
+}
+
+.form-group input:focus::placeholder{
+    color: transparent;
 }
 
 .form-group input:focus {
-    border-color: #007BFF;
+    border-color: #f8d81c;
     outline: none;
 }
 
@@ -55,11 +68,14 @@ body {
     color: #2c3844;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .submit-btn:hover {
-    background-color: #8c741a;
-    color: #f4f4f9;
+    background-color: rgb(221, 189, 73);
+    font-weight: 500;
+    color: black;
+    transition: background-color 0.3s ease;
 }
 
 .submit-btn:active {
@@ -76,7 +92,7 @@ body {
     background: none;
     border: none;
     color: #007BFF;
-    text-decoration: underline;
+    /* text-decoration: underline; */
     cursor: pointer;
     font: inherit;
     padding: 0;
@@ -105,4 +121,29 @@ form.active {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+}
+
+.form-group button {
+    display: inline-block;
+    padding: 10px 15px;
+    border: 3px solid #f8d81c;
+    background-color: #fff;
+    color: #2c3844;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 20px auto 15px;
+}
+
+.form-group button:hover {
+    border: 3px solid #f8d93e;
+}
+.form-group button:active {
+    background-color: #f8d81c;
+    border: none;
+}
+.form-group button:focus {
+    outline: none;
+    box-shadow: 0 0 5px #2c3844;
 }

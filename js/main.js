@@ -1,87 +1,102 @@
 // Загрузка Google Charts
 google.charts.load('current', { 'packages': ['corechart'] });
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawAllCharts);
 
-async function handleLogin(event) {
-    event.preventDefault();
-    const phone = document.getElementById('phone').value;
-    const password = document.getElementById('password').value;
-
-    try {
-        const response = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone, password }),
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            localStorage.setItem('user_id', data.user_id);
-            alert('Вход выполнен успешно!');
-            window.location.href = '/html/main.html';
-        } else {
-            alert(data.error || 'Ошибка авторизации');
-        }
-    } catch (error) {
-        console.error('Ошибка при входе:', error);
-    }
-}
-
-
-async function fetchData() {
+google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawLineChart);
+    
+async function fetchTransactions() {
     try {
         const response = await fetch('http://localhost:3000/get-transactions');
         if (!response.ok) throw new Error('Ошибка загрузки данных');
-
-        const transactions = await response.json();
-
-        // преоданных для диаграммы
-        const dataArray = [
-            ['Дата', 'Доходы', 'Расходы']
-        ];
-        transactions.forEach((t) => {
-            const date = new Date(t.date).toLocaleDateString('ru-RU');
-            if (t.type === 'income') {
-                dataArray.push([date, t.amount, 0]);
-            } else {
-                dataArray.push([date, 0, t.amount]);
-            }
-        });
-
-        return dataArray;
+        const data = await response.json();
+        console.log('Полученные транзакции:', data);
+        return data;
     } catch (error) {
-        console.error('Ошибка при загрузке данных:', error);
-        return [
-            ['Дата', 'Доходы', 'Расходы']
-        ];
+        console.error('Ошибка загрузки транзакций:', error);
+        return [];
+    }
+}
+    
+
+function groupTransactionsByCategory(transactions, type) {
+    return transactions
+        .filter(t => t.type === type)
+        .reduce((grouped, transaction) => {
+            grouped[transaction.category] = (grouped[transaction.category] || 0) + transaction.amount;
+            return grouped;
+        }, {});
+}
+
+function drawPieChart(data, elementId, ulId) {
+    const chartData = google.visualization.arrayToDataTable([
+        ['Категория', 'Сумма'],
+        ...Object.entries(data),
+    ]);
+
+    const options = {
+        chartArea: {
+            width: '100%',
+            height: '70%',
+        },
+        width: '100%',
+        height: '80%',
+        legend: { position: 'right' },
+    };
+
+    const chart = new google.visualization.PieChart(document.getElementById(elementId));
+    chart.draw(chartData, options);
+
+    const ulElement = document.getElementById(ulId);
+    ulElement.innerHTML = ''; 
+
+    Object.entries(data).forEach(([category, sum]) => {
+        const li = document.createElement('li');
+        
+        const categoryElement = document.createElement('p');
+        categoryElement.textContent = category + ":";
+        
+        const sumElement = document.createElement('p');
+        sumElement.textContent = `${sum}р`;
+        sumElement.id = `sum_kat_${category.replace(/\s+/g, '_').toLowerCase()}`;
+
+        li.appendChild(categoryElement);
+        li.appendChild(sumElement);
+        ulElement.appendChild(li);
+    });
+}
+
+
+
+
+async function drawAllCharts() {
+    try {
+        const transactions = await fetchTransactions(); // Получение данных транзакций
+        console.log('Транзакции для диаграмм:', transactions);
+
+        const incomeData = groupTransactionsByCategory(transactions, 'income');
+        const expenseData = groupTransactionsByCategory(transactions, 'expense');
+
+        drawPieChart(incomeData, 'positive-diagram', 'ul-positive-diagram');
+        drawPieChart(expenseData, 'negative-diagram', 'ul-negative-diagram');
+    } catch (error) {
+        console.error('Ошибка при отрисовке диаграмм:', error);
     }
 }
 
-async function drawChart() {
-    const data = google.visualization.arrayToDataTable(await fetchData());
 
-    const options = {
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        hAxis: { title: 'Дата' },
-        vAxis: { title: 'Сумма' },
-        width: '100%',
-        height: '100%',
-    };
 
-    const chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-    chart.draw(data, options);
-}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('.finance-form');
 
     if (form) {
         form.replaceWith(form.cloneNode(true));
-        form.addEventListener('submit', async(e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const user_id = localStorage.getItem('user_id'); // Получение user_id из localStorage
+            const user_id = localStorage.getItem('user_id'); 
             if (!user_id) {
                 alert('Пользователь не авторизован');
                 return;
@@ -109,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 if (response.ok) {
                     alert('Транзакция добавлена!');
-                    drawChart(); // Обновляем график
+                    drawAllCharts(); // Обновляем графики
                 } else {
                     alert(`Ошибка: ${data.error}`);
                 }
@@ -120,75 +135,144 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-window.addEventListener('resize', drawChart);
+window.addEventListener('resize', drawAllCharts);
+
+// Загрузка Google Charts
+google.charts.load('current', { packages: ['corechart'] });
+google.charts.setOnLoadCallback(drawLineChart); // возможно drawHistogram
 
 
-let data_income = [
-    ['Доходы', 'в течении дня'],
-    ['ЗП', 1200],
-    ['Фриланс', 2100],
-    ['Другое', 14500],
-];
+// Получение данных для гистограммы с сервера
+async function fetchReportData() {
+    try {
+      const response = await fetch('http://localhost:3000/get-report');
+      if (!response.ok) throw new Error('Ошибка загрузки отчета');
+      return await response.json();
+    } catch (error) {
+      console.error('Ошибка загрузки данных для отчета:', error);
+      return [];
+    }
+  }
 
-google.charts.setOnLoadCallback(drawChart2);
+  function prepareHistogramData(data) {
+    const result = [['Дата', 'Доходы', 'Расходы', 'Чистая прибыль']];
+    data.forEach((row) => {
+      result.push([row.date, row.income || 0, Math.abs(row.expense) || 0, row.net_profit || 0]);
+    });
+    return result;
+  }
 
-function drawChart2() {
 
-    const data = google.visualization.arrayToDataTable(data_income);
+  async function fetchReportData() {
+    try {
+        const response = await fetch('http://localhost:3000/get-report');
+        if (!response.ok) throw new Error('Ошибка загрузки отчета');
+        const data = await response.json();
 
-    const options = {
-        curveType: 'function',
-        chartArea: {
-            width: '100%',
-            height: '70%'
-        },
-        width: '100%',
-        height: '80%',
-        legend: { position: 'right' }
+        // Лог данных, чтобы проверить их на клиенте
+        console.log('Полученные данные для отчета:', data);
 
-    };
-
-    const chart = new google.visualization.PieChart(document.getElementById('positive-diagram'));
-
-    chart.draw(data, options);
+        return data;
+    } catch (error) {
+        console.error('Ошибка загрузки данных для отчета:', error);
+        return [];
+    }
 }
 
-window.addEventListener('resize', drawChart2);
-
-
-
-
-
-let data_expenses = [
-    ['Расходы', 'в течении дня'],
-    ['Кино', 11],
-    ['Фастфуд', 2],
-    ['Музыка', 2],
-    ['Комуналка', 2],
-    ['Клуб', 7]
-];
-
-google.charts.setOnLoadCallback(drawChart3);
-
-function drawChart3() {
-
-    const data = google.visualization.arrayToDataTable(data_expenses);
-
-    const options = {
-        chartArea: {
-            curveType: 'function',
-            width: '100%',
-            height: '70%'
-        },
-        width: '100%',
-        height: '80%',
-        legend: { position: 'right' }
-
-    };
-
-    const chart = new google.visualization.PieChart(document.getElementById('negative-diagram'));
-
-    chart.draw(data, options);
+  
+function prepareLineChartData(data) {
+    const result = [['Дата', 'Доходы', 'Расходы', 'Чистая прибыль']];
+    data.forEach((row) => {
+        const dateObj = new Date(row.date);
+        const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}.${String(dateObj.getMonth() + 1).padStart(2, '0')}.${dateObj.getFullYear()}`; // Форматируем как DD-MM-YYYY
+        console.log('Обработка строки:', row, 'Форматированная дата:', formattedDate);
+        result.push([formattedDate, row.income || 0, Math.abs(row.expense) || 0, row.net_profit || 0]);
+    });
+    console.log('Подготовленные данные для графика:', result);
+    return result;
 }
 
-window.addEventListener('resize', drawChart3);
+
+
+
+  
+  async function drawLineChart() {
+    const reportData = await fetchReportData();
+    if (reportData.length === 0) {
+      console.error('Данных для отображения нет.');
+      return;
+    }
+  
+    const chartData = google.visualization.arrayToDataTable(prepareLineChartData(reportData));
+  
+    const options = {
+      hAxis: { title: 'Дата' }, 
+      vAxis: { title: 'Сумма' },
+      legend: { position: 'top' },
+      width: "100%",
+      height: "80%",
+      lineWidth: 3, 
+    //   pointSize: 5, 
+    };
+  
+    const chart = new google.visualization.LineChart(document.getElementById('linechart_values'));
+    chart.draw(chartData, options);
+  }
+  
+  window.addEventListener('resize', drawLineChart);
+  
+  // Категории
+  const incomeCategories = [
+        "Зарплата",
+        "Фриланс",
+        "Инвестиции",
+        "Аренда",
+        "Продажа",
+        "Дивиденды",
+        "Другое"
+    ];
+
+    const expenseCategories = [
+        "Продукты",
+        "Игры",
+        "Развлечения",
+        "Пенсия",
+        "Транспорт",
+        "Кредиты",
+        "Коммунальные услуги",
+        "Другое"
+    ];
+
+    
+
+    window.onload = updateCategories;
+   
+
+    // Move the window.onload after all function declarations
+function updateCategories() {
+    const typeSelect = document.getElementById("type");
+    const categorySelect = document.getElementById("category");
+    const customCategoryInput = document.getElementById("custom-category");
+    
+    categorySelect.innerHTML = "";
+    customCategoryInput.style.display = "none";
+    
+    const categories = typeSelect.value === "income" ? incomeCategories : expenseCategories;
+    
+    categories.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateCategories();
+    
+    document.getElementById("category").addEventListener('change', function() {
+        const customCategoryInput = document.getElementById("custom-category");
+    });
+    
+    document.getElementById("type").addEventListener("change", updateCategories);
+});

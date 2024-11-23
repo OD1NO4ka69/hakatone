@@ -7,11 +7,13 @@
     <title>Профиль</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/profile.css">
+    <link rel="shortcut icon" href="/images/ruble_fy1gcwmovm7o.svg" type="image/x-icon">
 </head>
 
 <body>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/profile.js"></script> <!-- Подключаем profile.js -->
 
     <header class="main-header">
         <div class="header-container">
@@ -33,16 +35,24 @@
             <h2 style="margin: 0 10px 15px; text-align: start;">Кошелек</h2>
             <div class="wallet-container">
                 <div class="income-wallet">
+                    <div class="wallet-icon"></div>
                     <h3>Доходы:</h3>
                     <p>500p</p>
                 </div>
                 <div class="expenses-wallet">
+                    <div class="wallet-icon"></div>
                     <h3>Расходы:</h3>
                     <p>300р</p>
                 </div>
                 <div class="all-wallet">
-                    <h3>Общая выгода:</h3>
+                    <div class="wallet-icon"></div>
+                    <h3>Свободнo:</h3>
                     <p>300р</p>
+                </div>
+                <div class="add-wallet">
+                    <div class="wallet-icon add-icon"></div>
+                    <h3>Добавить операцию</h3>
+                    <p>.</p>
                 </div>
             </div>
         </div>
@@ -60,38 +70,9 @@
 
         <div class="main-container">
             <h2>История баланса</h2>
-            <ul>
-                <div class="delete-container">
-                    <li class="neg">
-                        <h3 id="pos-neg">Расходы</h3>
-                        <p id="kategory">Кино:</p>
-                        <p id="sum">300р</p>
-                        <p id="data">23.11.2024</p>
-                    </li>
-                    <button><img src="/images/icons8-мусор.svg" alt="trash"></button>
-                </div>
-                <div class="delete-container">
-                    <li class="neg">
-                        <h3 id="pos-neg">Расходы</h3>
-                        <p id="kategory">Кино:</p>
-                        <p id="sum">300р</p>
-                        <p id="data">23.11.2024</p>
-                    </li>
-                    <button><img src="/images/icons8-мусор.svg" alt="trash"></button>
-                </div>
-                <div class="delete-container">
-                    <li class="pos">
-                        <h3 id="pos-neg">Доходы</h3>
-                        <p id="kategory">Фриланс:</p>
-                        <p id="sum">300р</p>
-                        <p id="data">23.11.2024</p>
-                    </li>
-                    <button><img src="/images/icons8-мусор.svg" alt="trash"></button>
-                </div>
-            </ul>
+            <ul class="history-container"></ul>
         </div>
     </main>
-
 </body>
 
 </html>

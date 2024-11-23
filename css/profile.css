@@ -1,34 +1,45 @@
 .income-wallet,
 .expenses-wallet,
-.all-wallet {
+.all-wallet, .add-wallet {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     gap: 15px;
-    align-items: center;
+    align-items: left;
     padding: 10px;
+    width:25%;
     border-radius: 5px;
     margin-bottom: 10px;
+    height: fit-content;
 }
 
 .income-wallet,
 .expenses-wallet {
-    background-color: #f8d93e;
+    background-color: #f8d93e59;
+}
+.expenses-wallet{
+    background-color: #ff00155d;
 }
 
 .wallet-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    gap:7px;
     width: 100%;
     padding: 10px;
     border-radius: 5px;
 }
 
+.wallet-container div{
+    height: 120px;
+}
+
 .all-wallet {
     background-color: #c8e6c9;
 }
-
+.add-wallet{
+    border: 1px solid gray;
+}
 .submit-btn-profile {
     display: block;
     margin: 0 auto;
@@ -124,4 +135,14 @@ ul .neg {
     .all-wallet {
         width: 100%;
     }
+}
+
+.wallet-icon{
+    width: 30px;
+    height: 20px;
+    /* background-color: gray; */
+}
+.add-icon{
+    background-image: url(/images/documents-paper-sheets-stack-stroke-interface-symbol_icon-icons.com_57854.svg);
+    background-size: contain;
 }

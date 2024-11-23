@@ -116,3 +116,24 @@ function toggleForms() {
         }, 500);
     }
 }
+
+
+const passwordField = document.getElementById('password');
+const togglePasswordButton = document.getElementById('togglePassword');
+
+togglePasswordButton.addEventListener('click', () => {
+    const type = passwordField.type === 'password' ? 'text' : 'password';
+    passwordField.type = type;
+
+    togglePasswordButton.textContent = type === 'password' ? 'Показать пароль' : 'Скрыть пароль';
+});
+
+const passwordField2 = document.getElementById('password2');
+const togglePasswordButton2 = document.getElementById('togglePassword2');
+
+togglePasswordButton2.addEventListener('click', () => {
+    const type = passwordField2.type === 'password' ? 'text' : 'password';
+    passwordField2.type = type;
+
+    togglePasswordButton2.textContent = type === 'password' ? 'Показать пароль' : 'Скрыть пароль';
+});
