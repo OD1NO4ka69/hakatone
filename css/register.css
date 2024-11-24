@@ -123,27 +123,16 @@ form.active {
     pointer-events: auto;
 }
 
-.form-group button {
-    display: inline-block;
-    padding: 10px 15px;
-    border: 3px solid #f8d81c;
-    background-color: #fff;
-    color: #2c3844;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 20px auto 15px;
+.password-control img, .password-control2 img { 
+    max-width: 30px;
 }
 
-.form-group button:hover {
-    border: 3px solid #f8d93e;
+#password, #password2{
+    width: calc(100% - 60px);
 }
-.form-group button:active {
-    background-color: #f8d81c;
-    border: none;
-}
-.form-group button:focus {
-    outline: none;
-    box-shadow: 0 0 5px #2c3844;
+
+.form-pass{
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

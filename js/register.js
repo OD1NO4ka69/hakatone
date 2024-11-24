@@ -1,139 +1,109 @@
-window.onload = () => {
-    if (document.cookie.includes('user=')) {
-        window.location.href = '/main.html';
-    }
-};
+// // Обработчик регистрации
+// document.querySelector('.registration-form').addEventListener('submit', async(e) => {
+//     e.preventDefault();
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('/check-auth')
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.isAuthenticated) {
-                window.location.href = 'http://127.0.0.1:5500/html/main.html'; // Перенаправляем на главную, если авторизован
-            }
-        })
-        .catch((err) => console.error('Ошибка проверки авторизации:', err));
-});
+//     const username = e.target.username.value;
+//     const phone = e.target.phone.value;
+//     const password = e.target.password.value;
 
-// Обработчик регистрации
-document.querySelector('.registration-form').addEventListener('submit', async(e) => {
-    e.preventDefault();
+//     try {
+//         const API_URL = 'http://localhost:3000';
 
-    const username = e.target.username.value;
-    const phone = e.target.phone.value;
-    const password = e.target.password.value;
+//         const response = await fetch(`${API_URL}/register`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({ username, phone, password }),
+//         });
 
-    try {
-        const response = await fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username,
-                phone,
-                password
-            }),
-        });
+//         if (response.ok) {
+//             const data = await response.json();
+//             console.log('Регистрация успешна:', data);
+        
+//             // Сохраняем user_id в localStorage
+//             if (data.user_id) {
+//                 localStorage.setItem('user_id', data.user_id);
+//                 window.location.href = 'http://127.0.0.1:5500/html/main.html';
+//             } else {
+//                 console.error('Ошибка: user_id отсутствует в ответе сервера.');
+//             }
+//         } else {
+//             const error = await response.json();
+//             console.error('Ошибка регистрации:', error);
+//             alert(`Ошибка: ${error.error}`);
+//         }
+//     } catch (error) {
+//         console.error('Ошибка при регистрации:', error);
+//     }
+// });
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Регистрация успешна:', data); // Для отладки
+// // Обработчик для входа
+// document.querySelector('.login-form').addEventListener('submit', async(e) => {
+//     e.preventDefault();
 
-            // Сохраняем user_id в localStorage
-            localStorage.setItem('user_id', data.user_id);
+//     const phone = e.target.phone.value;
+//     const password = e.target.password.value;
 
-            alert('Регистрация успешна!');
+//     try {
+//         const response = await fetch('http://localhost:3000/login', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 phone,
+//                 password
+//             }),
+//         });
 
-            // Переход на главную страницу
-            window.location.href = 'http://127.0.0.1:5500/html/main.html';
-        } else {
-            const error = await response.json();
-            alert(`Ошибка: ${error.error}`);
-        }
-    } catch (error) {
-        console.error('Ошибка при регистрации:', error);
-    }
-});
+//         if (response.ok) {
+//             const data = await response.json();
+//             console.log('Успешный вход:', data); // Для отладки
 
-// Обработчик для входа
-document.querySelector('.login-form').addEventListener('submit', async(e) => {
-    e.preventDefault();
+//             // Сохраняем user_id в localStorage
+//             localStorage.setItem('user_id', data.user_id);
 
-    const phone = e.target.phone.value;
-    const password = e.target.password.value;
+//             alert('Успешный вход!');
 
-    try {
-        const response = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                phone,
-                password
-            }),
-        });
+//             // Переход на главную страницу
+//             window.location.href = 'http://127.0.0.1:5500/html/main.html';
+//         } else {
+//             const error = await response.json();
+//             alert(`Ошибка: ${error.error}`);
+//         }
+//     } catch (error) {
+//         console.error('Ошибка при входе:', error);
+//     }
+// });
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Успешный вход:', data); // Для отладки
 
-            // Сохраняем user_id в localStorage
-            localStorage.setItem('user_id', data.user_id);
 
-            alert('Успешный вход!');
-
-            // Переход на главную страницу
-            window.location.href = 'http://127.0.0.1:5500/html/main.html';
-        } else {
-            const error = await response.json();
-            alert(`Ошибка: ${error.error}`);
-        }
-    } catch (error) {
-        console.error('Ошибка при входе:', error);
-    }
-});
-
-// Переключение между формами регистрации и логина
-function toggleForms() {
-    const registrationForm = document.querySelector('.registration-form');
-    const loginForm = document.querySelector('.login-form');
-
-    if (registrationForm.style.display === 'none') {
-        loginForm.classList.add('hidden');
-        registrationForm.classList.remove('hidden');
-        setTimeout(() => {
-            loginForm.style.display = 'none';
-            registrationForm.style.display = 'block';
-        }, 500);
+function show_hide_password(target) {
+    const input = document.getElementById('password');
+    const img = document.getElementById('pass-img-open');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        img.src = '/images/close.png';
     } else {
-        registrationForm.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-        setTimeout(() => {
-            registrationForm.style.display = 'none';
-            loginForm.style.display = 'block';
-        }, 500);
+        input.type = 'password';
+        img.src = '/images/open.png';
     }
+    return false;
 }
 
 
-const passwordField = document.getElementById('password');
-const togglePasswordButton = document.getElementById('togglePassword');
-
-togglePasswordButton.addEventListener('click', () => {
-    const type = passwordField.type === 'password' ? 'text' : 'password';
-    passwordField.type = type;
-
-    togglePasswordButton.textContent = type === 'password' ? 'Показать пароль' : 'Скрыть пароль';
-});
-
-const passwordField2 = document.getElementById('password2');
-const togglePasswordButton2 = document.getElementById('togglePassword2');
-
-togglePasswordButton2.addEventListener('click', () => {
-    const type = passwordField2.type === 'password' ? 'text' : 'password';
-    passwordField2.type = type;
-
-    togglePasswordButton2.textContent = type === 'password' ? 'Показать пароль' : 'Скрыть пароль';
-});
+function show_hide_password2(target) {
+    const input = document.getElementById('password2');
+    const img = document.getElementById('pass-img-open2');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        img.src = '/images/close.png';
+    } else {
+        input.type = 'password';
+        img.src = '/images/open.png';
+    }
+    return false;
+}

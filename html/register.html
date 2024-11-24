@@ -22,8 +22,10 @@
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
-            <input type="password" id="password" name="password" placeholder="Придумайте пароль" required>
-            <button type="button" id="togglePassword">Показать пароль</button>
+            <div class="form-pass">
+                <input type="password" id="password" name="password" placeholder="Придумайте пароль" required>
+                <a href="#" class="password-control" onclick="return show_hide_password(this);"><img id="pass-img-open" src="/images/open.png" alt="Показать пароль"></a>
+            </div>
         </div>
         <button type="submit" class="submit-btn">Зарегистрироваться</button>
         <div class="form-footer">
@@ -39,8 +41,10 @@
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
-            <input type="password" id="password2" name="password" placeholder="Введите пароль" required>
-            <button type="button" id="togglePassword2">Показать пароль</button>
+            <div class="form-pass">
+                <input type="password" id="password2" name="password" placeholder="Введите пароль" required>
+                <a href="#" class="password-control2" onclick="return show_hide_password2(this);"><img id="pass-img-open2" src="/images/open.png" alt="Показать пароль"></a>
+            </div>
         </div>
         <button type="submit" class="submit-btn">Войти</button>
         <div class="form-footer">

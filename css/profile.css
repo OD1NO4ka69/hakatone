@@ -1,24 +1,29 @@
 .income-wallet,
 .expenses-wallet,
-.all-wallet, .add-wallet {
+.all-wallet, .add-wallet, .pre-wallet {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 15px;
     align-items: left;
     padding: 10px;
-    width:25%;
-    border-radius: 5px;
+    width:23%;
+    border-radius: 10px;
     margin-bottom: 10px;
     height: fit-content;
 }
+.pre-wallet{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
 
-.income-wallet,
-.expenses-wallet {
-    background-color: #f8d93e59;
+}
+
+.all-wallet {
+    background-color: #fae26a46;
 }
 .expenses-wallet{
-    background-color: #ff00155d;
+    background-color: #ff00152c;
 }
 
 .wallet-container {
@@ -34,12 +39,10 @@
     height: 120px;
 }
 
-.all-wallet {
-    background-color: #c8e6c9;
+.income-wallet {
+    background-color: #c8e6c9a2;
 }
-.add-wallet{
-    border: 1px solid gray;
-}
+
 .submit-btn-profile {
     display: block;
     margin: 0 auto;
@@ -81,7 +84,7 @@ ul .pos {
     min-width: 400px;
 }
 
-.pos #sum {
+.pos #sum , #sum_pos{
     color: #05c10b;
 }
 
@@ -90,7 +93,7 @@ ul .neg {
     padding: 3px 10px;
 }
 
-.neg #sum {
+.neg #sum, #sum_neg {
     color: #cf1525;
 }
 
@@ -125,6 +128,43 @@ ul .neg {
     scale: 1.02;
 }
 
+.pre-wallet div{
+    width: 42px;
+    height: 60px;
+}
+.qr{
+    background: url(/images/qrcodescan_120401.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.sheld{
+    background: url(/images/shield.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.qr:hover, .sheld:hover{
+    cursor: pointer;
+    background-color: #e2e2e2;
+    border-radius: 4px;
+    transition: background-color 0.5s ease;
+
+}
+.add-wallet{
+    height: 120px;
+    text-decoration: none;
+    border: 2px solid rgba(128, 128, 128, 0.13);
+}
+.add-wallet:hover{
+    background-color: solid rgba(128, 128, 128, 0.205);
+    transition: all 0.5s ease;
+    
+    
+}
+h3{
+    color: rgb(41, 40, 40)
+}
+
+
 @media screen and (max-width: 610px) {
     .wallet-container {
         flex-direction: column;
@@ -132,7 +172,7 @@ ul .neg {
     }
     .income-wallet,
     .expenses-wallet,
-    .all-wallet {
+    .all-wallet, .add-wallet {
         width: 100%;
     }
 }
@@ -141,8 +181,4 @@ ul .neg {
     width: 30px;
     height: 20px;
     /* background-color: gray; */
-}
-.add-icon{
-    background-image: url(/images/documents-paper-sheets-stack-stroke-interface-symbol_icon-icons.com_57854.svg);
-    background-size: contain;
 }

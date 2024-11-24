@@ -34,44 +34,84 @@
         <div class="main-container">
             <h2 style="margin: 0 10px 15px; text-align: start;">Кошелек</h2>
             <div class="wallet-container">
+                <div class="pre-wallet">
+                    <div class="qr"></div>
+                    <div class="sheld"></div>
+                </div>
                 <div class="income-wallet">
                     <div class="wallet-icon"></div>
                     <h3>Доходы:</h3>
-                    <p>500p</p>
+                    <p>за сегодня: <span id="income">0р</span></p>
                 </div>
+        
                 <div class="expenses-wallet">
                     <div class="wallet-icon"></div>
                     <h3>Расходы:</h3>
-                    <p>300р</p>
+                    <p>за сегодня: <span id="expense">0р</span></p>
                 </div>
+        
                 <div class="all-wallet">
                     <div class="wallet-icon"></div>
-                    <h3>Свободнo:</h3>
-                    <p>300р</p>
+                    <h3>Свободно:</h3>
+                    <p><span id="free-money">0р</span></p>
                 </div>
-                <div class="add-wallet">
-                    <div class="wallet-icon add-icon"></div>
+        
+                <a class="add-wallet" href="/html/main.html">
+                    <div class="wallet-icon add-icon">
+                        <img src="/images/documents-paper-sheets-stack-stroke-interface-symbol_icon-icons.com_57854.svg" alt="documents" style="width: 20px;">
+                    </div>
                     <h3>Добавить операцию</h3>
-                    <p>.</p>
-                </div>
+                </a>
             </div>
         </div>
+        
 
         <div class="main-container">
-            <h2 style="margin: 0 10px 15px; text-align: start;">Отчет</h2>
-            <div class="chart-wrapper" style="width: 100%; padding: 0; margin: 15px;">
-                <div id="curve_chart"></div>
-            </div>
-            <p>тут будут подсказки для людей</p>
-
-            <p style="margin-top: 50px; text-align: center;">Для полного отчета по доходам и расходам за определенный период времени перейдите на страницу с отчетами</p>
+            <h2>Отчет</h2>
+            <div class="linechart_values" id="linechart_values"></div>
+            <p style="margin-top: 50px; text-align: center;">Для полного отчета по доходам и расходам перейдите на страницу с отчетами</p>
             <button class="submit-btn-profile" onclick="window.location.href='main.html'">к отчётам</button>
         </div>
 
+
         <div class="main-container">
             <h2>История баланса</h2>
-            <ul class="history-container"></ul>
+            <ul class="delete-container">
+                <!-- Здесь будет динамически добавляться история транзакций -->
+            </ul>
         </div>
+        
+        <!-- <div class="main-container">
+            <h2>История баланса</h2>
+            <ul class="delete-container">
+                <li class="delete-item">
+                    <div class="delete-icon"></div>
+                    <p>12.05.2021</p>
+                    <p>Расходы:</p>
+                    <p id="sum_neg">200р</p>
+                    <button><img src="/images/icons8-мусор.svg" alt="tarash"></button>
+                </li>
+                <li class="delete-item">
+                    <div class="delete-icon"></div>
+                    <p>11.05.2021</p>
+                    <p>Доходы:</p>
+                    <p id="sum_pos">400р</p>
+                    <button><img src="/images/icons8-мусор.svg" alt="tarash"></button>
+
+                </li>
+                <li class="delete-item">
+                    <div class="delete-icon"></div>
+                    <p>10.05.2021</p>
+                    <p>Расходы:</p>
+                    <p id="sum_neg">400р</p>
+                    <button><img src="/images/icons8-мусор.svg" alt="tarash"></button>
+
+                </li>
+            </ul>
+        </div> -->
+
+
+        
     </main>
 </body>
 

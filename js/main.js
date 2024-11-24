@@ -20,6 +20,7 @@ async function fetchTransactions() {
     
 
 function groupTransactionsByCategory(transactions, type) {
+    if (!transactions) return {}; // Ensure transactions is valid
     return transactions
         .filter(t => t.type === type)
         .reduce((grouped, transaction) => {
@@ -27,6 +28,7 @@ function groupTransactionsByCategory(transactions, type) {
             return grouped;
         }, {});
 }
+
 
 function drawPieChart(data, elementId, ulId) {
     const chartData = google.visualization.arrayToDataTable([
@@ -89,6 +91,7 @@ async function drawAllCharts() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    updateCategories();
     const form = document.querySelector('.finance-form');
 
     if (form) {
@@ -181,7 +184,7 @@ async function fetchReportData() {
 
   
 function prepareLineChartData(data) {
-    const result = [['Дата', 'Доходы', 'Расходы', 'Чистая прибыль']];
+    const result = [['Дата', 'Ежедневные доходы', 'Ежедневные расходы', 'Чистая прибыль']];
     data.forEach((row) => {
         const dateObj = new Date(row.date);
         const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}.${String(dateObj.getMonth() + 1).padStart(2, '0')}.${dateObj.getFullYear()}`; // Форматируем как DD-MM-YYYY
@@ -229,6 +232,7 @@ function prepareLineChartData(data) {
         "Аренда",
         "Продажа",
         "Дивиденды",
+        "Пенсия",
         "Другое"
     ];
 
@@ -236,16 +240,11 @@ function prepareLineChartData(data) {
         "Продукты",
         "Игры",
         "Развлечения",
-        "Пенсия",
         "Транспорт",
         "Кредиты",
         "Коммунальные услуги",
         "Другое"
     ];
-
-    
-
-    window.onload = updateCategories;
    
 
     // Move the window.onload after all function declarations
@@ -276,3 +275,5 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.getElementById("type").addEventListener("change", updateCategories);
 });
+
+window.onload = updateCategories;
