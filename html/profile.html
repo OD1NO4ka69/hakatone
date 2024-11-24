@@ -8,12 +8,15 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="shortcut icon" href="/images/ruble_fy1gcwmovm7o.svg" type="image/x-icon">
+    <script src="/js/profile.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    
 </head>
 
 <body>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/profile.js"></script> <!-- Подключаем profile.js -->
+    <!-- <script src="/js/profile.js"></script> Подключаем profile.js -->
 
     <header class="main-header">
         <div class="header-container">
@@ -111,8 +114,16 @@
         </div> -->
 
 
+    
         
     </main>
+    <h1>Загрузка QR-кода</h1>
+    <input type="file" id="qrInput" accept="image/*">
+    <div id="output">Здесь появится информация из QR-кода</div>
+
+    <script src="/js/jsQR-master/dist/jsQR.js"></script>
+    <script src="/js/qr-reader.js"></script>
+   
 </body>
 
 </html>
