@@ -367,6 +367,64 @@ app.get('/get-report', (req, res) => {
     });
 });
 
+app.get('/get-financial-report', (req, res) => {
+    const userId = req.query.user_id;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    db.all('SELECT * FROM transactions WHERE user_id = ?', [userId], (err, rows) => {
+        if (err) {
+            console.error('Ошибка получения данных транзакций:', err.message);
+            return res.status(500).json({ message: 'Ошибка сервера при получении отчета' });
+        }
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Нет данных для отчета' });
+        }
+
+        // Подготовка данных отчета
+        let totalIncome = 0;
+        let totalExpense = 0;
+
+        rows.forEach(row => {
+            if (row.type === 'income') {
+                totalIncome += row.amount;
+            } else if (row.type === 'expense') {
+                totalExpense += row.amount;
+            }
+        });
+
+        const netProfit = totalIncome - totalExpense;
+
+        // Рекомендации
+        const recommendations = [
+            'Сократите расходы на ненужные покупки.',
+            'Рассмотрите возможность увеличения доходов через дополнительные проекты.',
+            `Рекомендуется откладывать 10-15% от прибыли на сбережения (примерно ${Math.round(netProfit * 0.1)} — ${Math.round(netProfit * 0.15)} руб.).`
+        ];
+
+        // Предупреждения
+        const warnings = [];
+        rows.forEach(row => {
+            if (row.type === 'expense' && row.amount > totalIncome * 0.1) {
+                warnings.push(`Большая трата в категории "${row.category}" на сумму ${row.amount} руб.`);
+            }
+        });
+
+        // Формирование ответа
+        const reportData = {
+            month: new Date().toLocaleString('ru', { month: 'long' }),
+            year: new Date().getFullYear(),
+            netProfit,
+            recommendations,
+            warnings
+        };
+
+        res.json(reportData);
+    });
+});
 
 
 const PORT = 3000;

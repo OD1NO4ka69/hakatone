@@ -95,7 +95,8 @@
 
             <div id="financial-report">
                 <p>Загрузка данных...</p>
-            </div>        </div>
+            </div>        
+        </div>
 
     </main>
 
@@ -144,42 +145,40 @@
 
 
 
-
         document.addEventListener('DOMContentLoaded', async () => {
-        const userId = localStorage.getItem('user_id');
+    const userId = localStorage.getItem('user_id');
 
-        if (!userId) {
-            alert('Пользователь не авторизован. Вы будете перенаправлены на страницу входа.');
-            window.location.href = '/html/register.html';
-        }
+    if (!userId) {
+        alert('Пользователь не авторизован. Вы будете перенаправлены на страницу входа.');
+        window.location.href = '/html/register.html';
+        return;
+    }
 
-        try {
-            // Запрос данных о транзакциях и отчетах
-            const response = await fetch(`http://localhost:3000/get-financial-report`);
-            if (!response.ok) throw new Error('Не удалось загрузить отчет.');
+    try {
+        const response = await fetch(`http://localhost:3000/get-financial-report?user_id=${userId}`);
+        if (!response.ok) throw new Error('Не удалось загрузить отчет.');
 
-            const data = await response.json();
+        const { month, year, netProfit, recommendations, warnings } = await response.json();
 
-            // Подготовка данных для отчета
-            const reportContainer = document.getElementById('financial-report');
-            const { month, year, netProfit, recommendations, warnings } = data;
+        const reportContainer = document.getElementById('financial-report');
+        const recommendationsHTML = recommendations.map((rec, index) => `<li>${index + 1}. ${rec}</li>`).join('');
+        const warningsHTML = warnings.map(warning => `<li>${warning}</li>`).join('');
 
-            const recommendationsHTML = recommendations.map((rec, index) => `<li>${index + 1}. ${rec}</li>`).join('');
-            const warningsHTML = warnings.map(warning => `<li>${warning}</li>`).join('');
+        reportContainer.innerHTML = `
+            <h3>Финансовый отчёт за ${month} ${year}</h3>
+            <p><strong>Прибыль:</strong> ${netProfit} руб. (доходы - расходы)</p>
+            <h4>Рекомендации:</h4>
+            <ul>${recommendationsHTML}</ul>
+            <h4>Предупреждения:</h4>
+            <ul>${warningsHTML}</ul>
+        `;
+    } catch (error) {
+        console.error('Ошибка загрузки отчета:', error);
+        document.getElementById('financial-report').innerHTML = `<p>Не удалось загрузить отчет. Попробуйте позже.</p>`;
+    }
+});
 
-            reportContainer.innerHTML = `
-                <h3>Финансовый отчёт за ${month} ${year}</h3>
-                <p><strong>Прибыль:</strong> ${netProfit} руб. (доходы - расходы)</p>
-                <h4>Рекомендации:</h4>
-                <ul>${recommendationsHTML}</ul>
-                <h4>Предупреждения:</h4>
-                <ul>${warningsHTML}</ul>
-            `;
-        } catch (error) {
-            console.error('Ошибка загрузки отчета:', error);
-            document.getElementById('financial-report').innerHTML = `<p>Не удалось загрузить отчет. Попробуйте позже.</p>`;
-        }
-    });
+    // });
     </script>
 
 
