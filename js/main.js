@@ -277,3 +277,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.onload = updateCategories;
+
+

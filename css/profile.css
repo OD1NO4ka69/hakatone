@@ -63,6 +63,7 @@ button.submit-btn-profile {
 button.submit-btn-profile:hover {
     background-color: #8c741a;
     color: #f4f4f9;
+    transition: all 0.3s ease;
 }
 
 .submit-btn-profile:active {
@@ -136,6 +137,15 @@ ul .neg {
     background: url(/images/qrcodescan_120401.svg);
     background-size: contain;
     background-repeat: no-repeat;
+    position: relative;
+}
+.qr input{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    opacity: 0;
+    /* visibility: hidden; */
+
 }
 .sheld{
     background: url(/images/shield.svg);
@@ -157,7 +167,7 @@ ul .neg {
 .add-wallet:hover{
     background-color: solid rgba(128, 128, 128, 0.205);
     transition: all 0.5s ease;
-    
+
     
 }
 h3{

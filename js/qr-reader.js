@@ -1,3 +1,4 @@
+let qr_inf = "";
 document.getElementById('qrInput').addEventListener('change', async function (event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -17,9 +18,10 @@ document.getElementById('qrInput').addEventListener('change', async function (ev
             const code = jsQR(imageData.data, canvas.width, canvas.height);
 
             if (code) {
-                document.getElementById('output').innerText = code.data;
+                qr_inf = code.data
+                console.log(qr_inf);
             } else {
-                document.getElementById('output').innerText = 'QR-код не распознан.';
+                qr_inf = "";
             }
         };
         img.src = reader.result;

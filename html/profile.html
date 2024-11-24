@@ -38,7 +38,9 @@
             <h2 style="margin: 0 10px 15px; text-align: start;">Кошелек</h2>
             <div class="wallet-container">
                 <div class="pre-wallet">
-                    <div class="qr"></div>
+                    <div class="qr">
+                        <input type="file" id="qrInput" class= "qr" accept="image/*">
+                    </div>
                     <div class="sheld"></div>
                 </div>
                 <div class="income-wallet">
@@ -117,13 +119,22 @@
     
         
     </main>
-    <h1>Загрузка QR-кода</h1>
-    <input type="file" id="qrInput" accept="image/*">
-    <div id="output">Здесь появится информация из QR-кода</div>
+    
 
     <script src="/js/jsQR-master/dist/jsQR.js"></script>
     <script src="/js/qr-reader.js"></script>
-   
+    <script>
+        // Получаем параметр user_id из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user_id');
+        
+        if (userId) {
+            console.log('User ID:', userId);
+            // Здесь можно использовать userId, например, для загрузки данных пользователя
+        } else {
+            console.error('User ID не передан');
+        }
+    </script>
 </body>
 
 </html>

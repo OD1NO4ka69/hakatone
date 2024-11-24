@@ -87,4 +87,3 @@ async function clearHistory() {
 
 
 // Загружаем историю при загрузке страницы
-

@@ -1,100 +1,135 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация и Вход</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <link rel="shortcut icon" href="/images/ruble_fy1gcwmovm7o.svg" type="image/x-icon">
+    <title>Авторизация</title>
 </head>
+
 <body>
-    <h1>Регистрация</h1>
-    <form id="registration-form">
-        <label for="username">Имя пользователя:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
-
-        <label for="phone_number">Номер телефона:</label><br>
-        <input type="tel" id="phone_number" name="phone_number" pattern="^\+?[0-9]{10,15}$" required><br><br>
-
-        <label for="password">Пароль:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <button type="submit">Зарегистрироваться</button>
+    <form class="registration-form" method="post" action="http://localhost:3000/register">
+        <h2>РЕГИСТРАЦИЯ</h2>
+        <div class="form-group">
+            <label for="username">Имя пользователя</label>
+            <input type="text" id="username" name="username" placeholder="Введите имя" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Номер телефона</label>
+            <input type="tel" id="phone" name="phone" pattern="[7-8][0-9]{10}" placeholder="Введите номер телефона" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <div class="form-pass">
+                <input type="password" id="password" name="password" placeholder="Придумайте пароль" required>
+                <a href="#" class="password-control" onclick="return show_hide_password(this);"><img id="pass-img-open" src="/images/open.png" alt="Показать пароль"></a>
+            </div>
+        </div>
+        <button type="submit" class="submit-btn">Зарегистрироваться</button>
+        <div class="form-footer">
+            Уже есть аккаунт? <input type="button" value="Войти" class="link-btn" onclick="toggleForms()">
+        </div>
     </form>
 
-    <p id="error-message" style="color: red;"></p>
-    <p id="success-message" style="color: green;"></p>
-
-    <hr>
-
-    <h1>Вход</h1>
-    <form id="login-form">
-        <label for="login-phone-number">Номер телефона:</label><br>
-        <input type="tel" id="login-phone-number" name="phone_number" required><br><br>
-
-        <label for="login-password">Пароль:</label><br>
-        <input type="password" id="login-password" name="password" required><br><br>
-
-        <button type="submit">Войти</button>
+    <form class="login-form" style="display: none;" method="post" action="http://localhost:3000/login">
+        <h2>ВХОД В АККАУНТ</h2>
+        <div class="form-group">
+            <label for="phone">Номер телефона</label>
+            <input type="tel" id="phone" name="phone" pattern="[7-8][0-9]{10}" placeholder="Введите номер телефона" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <div class="form-pass">
+                <input type="password" id="password2" name="password" placeholder="Введите пароль" required>
+                <a href="#" class="password-control2" onclick="return show_hide_password2(this);"><img id="pass-img-open2" src="/images/open.png" alt="Показать пароль"></a>
+            </div>
+        </div>
+        <button type="submit" class="submit-btn">Войти</button>
+        <div class="form-footer">
+            Нет аккаунта? <input type="button" value="Зарегистрироваться" class="link-btn" onclick="toggleForms()">
+        </div>
     </form>
 
     <script>
-        // Обработчик регистрации
-        document.getElementById('registration-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
+        function toggleForms() {
+            const registerForm = document.querySelector('.registration-form');
+            const loginForm = document.querySelector('.login-form');
+            registerForm.style.display = registerForm.style.display === 'none' ? 'block' : 'none';
+            loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+        }
 
-            const username = document.getElementById('username').value;
-            const phone_number = document.getElementById('phone_number').value;
-            const password = document.getElementById('password').value;
+        // Логика для регистрации
+        document.querySelector('.registration-form').addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const username = e.target.username.value;
+            const phone = e.target.phone.value;
+            const password = e.target.password.value;
 
             try {
                 const response = await fetch('http://localhost:3000/register', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, phone_number, password }),
+                    body: JSON.stringify({
+                        username,
+                        phone,
+                        password
+                    }),
                 });
 
-                const result = await response.json();
-                if (response.status === 200) {
-                    document.getElementById('success-message').textContent = result.message;
-                    document.getElementById('error-message').textContent = '';
-                    window.location.replace(result.redirectUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('user_id', data.user_id); // Сохраняем user_id
+                    alert('Регистрация успешна!');
+                    window.location.href = 'http://127.0.0.1:5500/html/main.html'; // Переход на главную страницу
                 } else {
-                    document.getElementById('error-message').textContent = result.message || 'Ошибка при регистрации.';
-                    document.getElementById('success-message').textContent = '';
+                    const error = await response.json();
+                    alert(`Ошибка: ${error.error}`);
                 }
             } catch (error) {
-                document.getElementById('error-message').textContent = 'Ошибка при регистрации. Попробуйте позже.';
+                console.error('Ошибка при регистрации:', error);
             }
         });
 
-        // Обработчик входа
-        document.getElementById('login-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
+        // Логика для входа
+        document.querySelector('.login-form').addEventListener('submit', async(e) => {
+            e.preventDefault();
 
-            const phone_number = document.getElementById('login-phone-number').value;
-            const password = document.getElementById('login-password').value;
+            const phone = e.target.phone.value;
+            const password = e.target.password.value;
 
             try {
                 const response = await fetch('http://localhost:3000/login', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ phone_number, password }),
+                    body: JSON.stringify({
+                        phone,
+                        password
+                    }),
                 });
 
-                const result = await response.json();
-                if (response.status === 200) {
-                    // Перенаправляем на главную страницу с user_id
-                    window.location.replace(result.redirectUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('user_id', data.user_id); // Сохраняем user_id
+                    alert('Успешный вход!');
+                    window.location.href = 'http://127.0.0.1:5500/html/main.html'; // Переход на главную страницу
                 } else {
-                    document.getElementById('error-message').textContent = result.message || 'Ошибка при входе.';
+                    const error = await response.json();
+                    alert(`Ошибка: ${error.error}`);
                 }
             } catch (error) {
-                document.getElementById('error-message').textContent = 'Ошибка при входе. Попробуйте позже.';
+                console.error('Ошибка при входе:', error);
             }
         });
     </script>
+
+    <script src="/js/register.js "></script>
 </body>
+
 </html>
