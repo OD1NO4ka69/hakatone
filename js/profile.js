@@ -24,6 +24,12 @@ async function fetchData() {
     }
 }
 
+// Запускаем fetchData при загрузке страницы
+window.onload = function () {
+    fetchData();
+};
+
+
 async function fetchHistory() {
     try {
         const response = await fetch('http://localhost:3000/api/get-history');

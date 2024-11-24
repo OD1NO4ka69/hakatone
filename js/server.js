@@ -30,26 +30,22 @@ const dbPath = path.join(__dirname, 'js', 'newusers8.db');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // API для получения данных о кошельке
-app.get('/api/get_wallet_data', (req, res) => {
-    db.all('SELECT SUM(amount) AS income FROM transactions WHERE type = "income"', (err, incomeRows) => {
-        if (err) {
-            console.error('Ошибка при получении доходов:', err.message);
-            return res.status(500).json({ error: 'Ошибка при получении доходов: ' + err.message });
-        }
+app.get('/api/get_wallet_data', async (req, res) => {
+    const date = req.query.date; // Получаем дату из запроса
+    if (!date) {
+        return res.status(400).json({ error: 'Дата не указана' });
+    }
 
-        db.all('SELECT SUM(amount) AS expense FROM transactions WHERE type = "expense"', (err, expenseRows) => {
-            if (err) {
-                console.error('Ошибка при получении расходов:', err.message);
-                return res.status(500).json({ error: 'Ошибка при получении расходов: ' + err.message });
-            }
-
-            const income = incomeRows[0].income || 0;  // Если данных нет, возвращаем 0
-            const expense = expenseRows[0].expense || 0;
-
-            res.json({ income, expense });
-        });
-    });
+    try {
+        const income = await getIncomeForDate(date); // Функция для получения доходов
+        const expense = await getExpenseForDate(date); // Функция для получения расходов
+        res.json({ income, expense });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Ошибка сервера' });
+    }
 });
+
 
 
 

@@ -1,3 +1,13 @@
+function extractAndRound(str) {
+    const regex = /&s=([0-9.]+)&fn=/;
+    const match = str.match(regex);
+
+    if (match && match[1]) {
+        return Math.round(parseFloat(match[1]));
+    }
+
+    return null;
+}
 let qr_inf = "";
 document.getElementById('qrInput').addEventListener('change', async function (event) {
     const file = event.target.files[0];
@@ -18,8 +28,9 @@ document.getElementById('qrInput').addEventListener('change', async function (ev
             const code = jsQR(imageData.data, canvas.width, canvas.height);
 
             if (code) {
-                qr_inf = code.data
-                console.log(qr_inf);
+                qr_inf = code.data;
+                let summ = extractAndRound(qr_inf);
+                console.log(sum);
             } else {
                 qr_inf = "";
             }
